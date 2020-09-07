@@ -1,1 +1,1 @@
-web : node about.ejs
+web : node app.js
