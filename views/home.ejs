@@ -1,0 +1,179 @@
+<link href="/style.css" rel="stylesheet" type="text/css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+Tambola
+</title>
+<script>
+        var arr = <%- arr %>;
+        var number = <%- number %>;
+        var ticket_copy = <%- ticket_copy %>;
+</script>
+
+<body>
+
+<br>
+<h1> Welcome <%= name %> </h1>
+<div class = "table" id = "tid">
+        <input type="button" value= " Download Tickets" id="btPrint" onclick="createPDF()" />
+        <br>
+        <% for(var i = 0; i < number; i++) { %>
+        <p > Ticket number <%= i+1  %> </p>
+        <table id="table_ticket<%= i+1 %>" style = " outline: Gold solid 4px;">
+                <% for(var j =0; j < 3; j++) { %>
+                        <tr>
+                        <% for(var k =0; k < 9; k++) { %>
+                        <td >
+                                <% if (ticket[i][j][k] != 0 ) { %>
+                                        <%= ticket[i][j][k] %> 
+                                <%}%> 
+                        
+                        </td>
+                        <% }%>
+                        </tr>
+                <% }%>
+        </table>
+        <% }%>
+</div>
+
+<div class = "board">
+        <% var count = 0; %>
+        <table id = "table-board">
+                <% for(var j =0; j < 9; j++) { %>
+                        <tr>
+                        <% for(var k =0; k < 10; k++) { %>
+                        <td bgcolor="yellow">
+                                <%= board[count] %>
+                                <% count = count + 1 %> 
+                        </td>
+                       
+                        
+                        <% }%>
+                        </tr>
+                <% }%>
+        </table>
+
+</div>
+
+<div id = "stack">
+00
+</div>
+
+
+<div id = "button">
+        <div id = "demo"> 00 </div>
+        <button id = "bid" onclick="myFunction()">Generate Number</button>
+</div>
+<script>
+var prev = 0;
+var string = "";
+function myFunction() {
+        var high = 90;
+        var low = 1;
+        var num = Math.floor(Math.random() * (+high + 1 - +low)) + +low; 
+        var flag = arr.includes(num);
+        if (arr.length == 90){
+                document.getElementById("demo").style.fontSize = "xxx-large";
+                document.getElementById("demo").innerHTML = "Game over";
+                document.getElementById("btPrint").value = "Download Final Status";
+                document.getElementById("bid").innerHTML = " BYE";
+                
+
+        }
+        else{
+
+                while(flag== true){
+                 
+                        var num = Math.floor(Math.random() * (+high + 1 - +low)) + +low; 
+                        var flag = arr.includes(num);
+                }
+                arr.push(num);
+                // text to speech 
+                var msg = new SpeechSynthesisUtterance(num);
+                window.speechSynthesis.speak(msg);
+                
+                num_s = num.toString();
+                if (num<10){
+                        num_s = "0" + num_s;
+                }
+                document.getElementById("demo").innerHTML = num_s;
+                string = num_s + '&nbsp &nbsp &nbsp &nbsp' + string ;
+                document.getElementById('stack').innerHTML = string;
+                
+
+                var row = Math.floor(num/10);
+                var col = num%10 - 1;
+                if (col == -1){
+                        col = 9;
+                        row = row - 1;
+                }
+                var tid = document.getElementById("tid");
+                
+                var table_board = document.getElementById("table-board");
+                table_board.rows[row].cells[col].style.backgroundColor = "#ff0000";
+                // red color 
+
+                var s = "";
+                for(var k = 0;k<number;k++){
+                        var nums = k +1;
+                        s = "table_ticket" + nums.toString();
+                   
+                        var table_ticket = document.getElementById(s);
+                        for( var f = 0;f<3;f++){
+                                var flags = ticket_copy[k][f].includes(num);
+                                if (flags == true){
+                                        break;
+                                }
+                        }
+                       
+                        col = Math.floor(num/10);
+                        if (flags == true){
+                                for (var i = 0;i<3;i++){
+                                        if (ticket_copy[k][i][col] == num){
+                                               
+                                                table_ticket.rows[i].cells[col].style.backgroundColor = "yellow";
+                                        }
+                                }
+                               
+                        }
+                }
+
+
+        }
+}
+</script>
+
+
+
+<script>
+    function createPDF() {
+        var sTable = document.getElementById('tid').innerHTML;
+
+        var style = "<style>";
+        style = style + "table {width: 80%;font: 17px Calibri;}";
+        style = style + "table, th, td {border: solid 2px red; border-collapse: collapse;";
+        style = style + "padding: 3px 3px;text-align: center;color:blue;font-weight: bold;}";
+        style = style + "</style>";
+
+        // CREATE A WINDOW OBJECT.
+        var win = window.open('', '', 'height=700,width=700');
+
+        win.document.write('<html><head>');
+        win.document.write('<title>Tickets</title>');   // <title> FOR PDF HEADER.
+        win.document.write(style);          // ADD STYLE INSIDE THE HEAD TAG.
+        win.document.write('</head>');
+        win.document.write('<body>');
+        win.document.write(sTable);         // THE TABLE CONTENTS INSIDE THE BODY TAG.
+        win.document.write('</body></html>');
+
+        win.document.close(); 	// CLOSE THE CURRENT WINDOW.
+
+        win.print();    // PRINT THE CONTENTS.
+        
+    }
+</script>
+
+
+
+
+
+</body>
