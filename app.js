@@ -19,7 +19,7 @@ app.post('/home',function(req,res){
     res.render('home.ejs',{ticket:ticket,ticket_copy:JSON.stringify(ticket) , number:parseInt(number),name:name,board:board,arr: JSON.stringify(arr)})
 });
 
-const PORT = 3000 || process.env.PORT;
+const PORT = process.env.PORT || 3000 ;
 app.listen(PORT);
 
 
