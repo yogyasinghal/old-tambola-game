@@ -20,6 +20,5 @@ app.post('/home',function(req,res){
 });
 
 const PORT = process.env.PORT || 3000 ;
-app.listen(PORT);
-
+app.set("port",PORT);
 
