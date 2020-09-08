@@ -1,5 +1,7 @@
 var express = require('express');
+const PORT = process.env.PORT || '8080' ;
 var app = express();
+app.set("port",PORT);
 app.set('view-engine','ejs');
 app.use(express.urlencoded({extended : false}))
 app.use(express.static(__dirname + '/public'));
@@ -19,6 +21,4 @@ app.post('/home',function(req,res){
     res.render('home.ejs',{ticket:ticket,ticket_copy:JSON.stringify(ticket) , number:parseInt(number),name:name,board:board,arr: JSON.stringify(arr)})
 });
 
-const PORT = process.env.PORT || 3000 ;
-app.set("port",PORT);
 
