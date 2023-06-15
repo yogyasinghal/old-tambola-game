@@ -10,7 +10,6 @@ app.get('/',(req,res)=>{
     res.render('about.ejs');
 });
 
-
 app.post('/home',function(req,res){
     Name = req.body.name;
     var number = req.body.number;
