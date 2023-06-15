@@ -12,13 +12,13 @@ app.get('/',(req,res)=>{
 
 
 app.post('/home',function(req,res){
-    name = req.body.name;
+    Name = req.body.name;
     var number = req.body.number;
     module.exports = number;
     var ticket = require('./ticket.js');
     var board = require('./board.js');
     var arr = new Array();
-    res.render('home.ejs',{ticket:ticket,ticket_copy:JSON.stringify(ticket) , number:parseInt(number),name:name,board:board,arr: JSON.stringify(arr)})
+    res.render('home.ejs',{ticket:ticket,ticket_copy:JSON.stringify(ticket) , number:parseInt(number),name:Name,board:board,arr: JSON.stringify(arr)})
 });
 
 app.listen(PORT);
