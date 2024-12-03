@@ -11,6 +11,7 @@ app.get('/',(req,res)=>{
 });
 
 
+
 app.post('/home',function(req,res){
     Name = req.body.name;
     var number = req.body.number;
